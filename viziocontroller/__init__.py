@@ -25,19 +25,30 @@ class VizioController:
 		if "access_token" not in options:
 			self.api = api.API(options)
 			request_token = self.api.pairing_stage_1( self.ip )
-			print( f"Ok , now rerun with this and set options['request_token']: {request_token}" )
+			print( f"Ok , now rerun this and set options['request_token']: {request_token}" )
 			print( f"and options['code_displayed_on_tv']: code on tv" )
 			sys.exit( 1 )
-		else:
-			self.access_token = options["access_token"]
 		self.api = api.API(options)
 
 if __name__ == "__main__":
-	vizio = VizioController({
+	tv = VizioController({
 			"name": "Loft TV" ,
 			"mac_address": "2c:64:1f:25:6b:3c" ,
 			"ip": "192.168.1.102" ,
 			"access_token": "Zhehzvszfq"
 		})
-	print( vizio.ip )
-	vizio.api.get_volume()
+	print( tv.ip )
+
+	#current_volume = tv.api.get_volume()
+	#print( current_volume )
+	#tv.api.volume_up()
+	#tv.api.volume_down()
+	tv.api.get_audio_settings()
+
+	#current_input = tv.api.get_current_input()
+	#print( current_input )
+	#available_inputs = tv.api.get_available_inputs()
+	#print( available_inputs )
+	# tv.api.set_input( "HDMI-1" )
+	# tv.api.set_input( "HDMI-2" )
+	#tv.api.cycle_input()
