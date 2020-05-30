@@ -15,6 +15,7 @@ class VizioController:
 		if "ip" not in options:
 			self.discover = discover.Discover( options )
 			self.ip = self.discover.find_tv()
+			options["ip"] = self.ip
 		else:
 			self.ip = options["ip"]
 		if "request_token" in options:

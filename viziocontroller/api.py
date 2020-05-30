@@ -81,8 +81,3 @@ class API:
 		result = json.loads( response.text )
 		pprint( result )
 		return result
-
-
-if __name__ == "__main__":
-
-	api = API()
