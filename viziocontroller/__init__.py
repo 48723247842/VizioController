@@ -43,7 +43,7 @@ if __name__ == "__main__":
 	#print( current_volume )
 	#tv.api.volume_up()
 	#tv.api.volume_down()
-	tv.api.get_audio_settings()
+	#tv.api.get_audio_settings()
 
 	#current_input = tv.api.get_current_input()
 	#print( current_input )
@@ -52,3 +52,8 @@ if __name__ == "__main__":
 	# tv.api.set_input( "HDMI-1" )
 	# tv.api.set_input( "HDMI-2" )
 	#tv.api.cycle_input()
+
+	# Left Off at https://github.com/vkorn/pyvizio#managing-audio-settings
+
+	# Whenever this is done, post it here:
+	# https://github.com/vkorn/pyvizio/issues/5
