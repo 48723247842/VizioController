@@ -230,7 +230,7 @@ class API:
 		response.raise_for_status()
 		result = json.loads( response.text )
 		# pprint( result )
-		inputs = [ { "name": x["NAME"] , "hashval": x["HASHVAL"] } for x in result["ITEMS"] ]
+		inputs = [ { "name": x["NAME"] , "hash_value": x["HASHVAL"] } for x in result["ITEMS"] ]
 		return inputs
 
 	def set_input( self , input_name ):
@@ -290,5 +290,210 @@ class API:
 		response = requests.get( url , headers=headers , verify=False )
 		response.raise_for_status()
 		result = json.loads( response.text )
+		pprint( result )
+		return result
+
+	def get_audio_setting( self , audio_setting ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/dynamic/tv_settings/audio/{audio_setting}"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'HASHLIST': [3552915159, 3436748430],
+		#  'ITEMS': [{'CNAME': 'tv_speakers',
+		#             'HASHVAL': 4126758801,
+		#             'INDEX': 0,
+		#             'NAME': 'Speakers',
+		#             'TYPE': 'T_LIST_V1',
+		#             'VALUE': 'Auto'}],
+		#  'PARAMETERS': {'FLAT': 'TRUE', 'HASHONLY': 'FALSE', 'HELPTEXT': 'FALSE'},
+		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'},
+		#  'URI': '/menu_native/dynamic/tv_settings/audio/tv_speakers'}
+		result = json.loads( response.text )
+		#pprint( result )
+		return { "setting": result["ITEMS"][0]["VALUE"] , "hash_value": result["ITEMS"][0]["HASHVAL"] }
+
+	def get_all_audio_settings_options( self ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/static/tv_settings/audio"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		result = json.loads( response.text )
 		#pprint( result )
 		return result
+
+	def get_audio_settings_options( self , audio_setting_option ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/static/tv_settings/audio/{audio_setting_option}"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'HASHVAL': 1234567890,
+		#  'ITEMS': [{'CNAME': 'tv_speakers',
+		#             'ELEMENTS': ['Auto', 'On', 'Off'],
+		#             'GROUP': 'G_AUDIO',
+		#             'NAME': 'Speakers',
+		#             'TYPE': 'T_LIST_V1'}],
+		#  'PARAMETERS': {'FLAT': 'TRUE', 'HASHONLY': 'FALSE', 'HELPTEXT': 'FALSE'},
+		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'},
+		#  'URI': '/menu_native/static/tv_settings/audio/tv_speakers'}
+		result = json.loads( response.text )
+		#pprint( result )
+		return result
+
+	def set_audio_setting( self , audio_setting , audio_setting_option ):
+
+		# For this one, you first need the hash value of the current audio setting
+		current_settings = self.get_audio_setting( audio_setting )
+		print( current_settings )
+
+		headers = {
+			"Content-Type": "application/json" ,
+			"AUTH": self.options["access_token"]
+		}
+		data = {
+			"_url": f"/menu_native/dynamic/tv_settings/audio/{audio_setting}" ,
+			"item_name": "SETTINGS" ,
+			"VALUE": audio_setting_option ,
+			"HASHVAL": current_settings["hash_value"] ,
+			"REQUEST": "MODIFY"
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/dynamic/tv_settings/audio/{audio_setting}"
+		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'HASHLIST': [3552915159, 3436748430],
+		#  'ITEMS': [{'HASHVAL': 2210383572, 'NAME': 'Mute'}],
+		#  'PARAMETERS': {'HASHVAL': 1580137992, 'REQUEST': 'MODIFY', 'VALUE': 'Off'},
+		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}
+		result = json.loads( response.text )
+		pprint( result )
+		return result
+
+	def get_settings_types( self ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/dynamic/tv_settings"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		result = json.loads( response.text )
+		# pprint( result )
+		return result
+
+	def get_all_settings_for_type( self , setting_type ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/dynamic/tv_settings/{setting_type}"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		result = json.loads( response.text )
+		pprint( result )
+		return result
+
+	def get_setting( self , setting_type , setting_name ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/dynamic/tv_settings/{setting_type}/{setting_name}"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'HASHLIST': [2880302639, 3367486168],
+		#  'ITEMS': [{'CNAME': 'backlight',
+		#             'HASHVAL': 1656752721,
+		#             'NAME': 'Backlight',
+		#             'TYPE': 'T_VALUE_V1',
+		#             'VALUE': 100}],
+		#  'PARAMETERS': {'FLAT': 'TRUE', 'HASHONLY': 'FALSE', 'HELPTEXT': 'FALSE'},
+		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'},
+		#  'URI': '/menu_native/dynamic/tv_settings/picture/backlight'}
+		result = json.loads( response.text )
+		#pprint( result )
+		return result
+
+	def get_all_settings_options_for_type( self , settings_type ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/static/tv_settings/{settings_type}"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		result = json.loads( response.text )
+		#pprint( result )
+		return result
+
+
+	def get_settings_option( self , settings_type , setting_name ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/static/tv_settings/{settings_type}/{setting_name}"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'HASHVAL': 1234567890,
+		#  'ITEMS': [{'CNAME': 'backlight',
+		#             'GROUP': 'G_PICTURE',
+		#             'INCREMENT': 1,
+		#             'MAXIMUM': 100,
+		#             'MINIMUM': 0,
+		#             'NAME': 'Backlight',
+		#             'TYPE': 'T_VALUE_V1'}],
+		#  'PARAMETERS': {'FLAT': 'TRUE', 'HASHONLY': 'FALSE', 'HELPTEXT': 'FALSE'},
+		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'},
+		result = json.loads( response.text )
+		#pprint( result )
+		return result
+
+	def set_settings_option( self , settings_type , setting_name , settings_option ):
+
+		# For this one, you first need the hash value of the current setting
+		current_setting = self.get_setting( settings_type , setting_name )
+
+		headers = {
+			"Content-Type": "application/json" ,
+			"AUTH": self.options["access_token"]
+		}
+		data = {
+			"_url": f"/menu_native/dynamic/tv_settings/{settings_type}/{setting_name}" ,
+			"item_name": "SETTINGS" ,
+			"VALUE": int( settings_option ) ,
+			"HASHVAL": current_setting["ITEMS"][0]["HASHVAL"] ,
+			"REQUEST": "MODIFY"
+		}
+		url = f"https://{self.options['ip']}:7345/menu_native/dynamic/tv_settings/{settings_type}/{setting_name}"
+		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'HASHLIST': [791350083, 2564833227],
+		#  'ITEMS': [{'HASHVAL': 2398756231, 'NAME': 'Backlight'}],
+		#  'PARAMETERS': {'HASHVAL': 1656752721, 'REQUEST': 'MODIFY', 'VALUE': 90},
+		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'},
+		result = json.loads( response.text )
+		pprint( result )
+		return result
+
+	def get_apps_list( self ):
+		pass
