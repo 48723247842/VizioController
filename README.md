@@ -2,6 +2,10 @@
 
 ## Based on https://github.com/vkorn/pyvizio
 
+```
+python3 -m pip install viziocontroller
+```
+
 ### 1.) Run and Generate Request Token
 
 ```
