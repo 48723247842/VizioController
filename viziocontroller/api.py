@@ -29,7 +29,7 @@ class API:
 		# 	'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}
 		# }
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result["ITEM"]["PAIRING_REQ_TOKEN"]
 
 	def pairing_stage_2( self , ip_address , pairing_request_token , code_displayed_on_tv ):
@@ -44,7 +44,6 @@ class API:
 			"PAIRING_REQ_TOKEN": pairing_request_token ,
 			"RESPONSE_VALUE": str( code_displayed_on_tv )
 		}
-		print( data )
 		url = f"https://{ip_address}:7345/pairing/pair"
 		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
 		response.raise_for_status()
@@ -55,7 +54,7 @@ class API:
 		# 	'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}
 		# }
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result["ITEM"]["AUTH_TOKEN"]
 
 	def get_volume( self ):
@@ -102,7 +101,7 @@ class API:
 		# Should Return
 		# {"STATUS": {"RESULT": "SUCCESS", "DETAIL": "Success"}, "URI": "/key_command/"}
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def volume_up( self ):
@@ -125,7 +124,7 @@ class API:
 		# Should Return
 		# {"STATUS": {"RESULT": "SUCCESS", "DETAIL": "Success"}, "URI": "/key_command/"}
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def mute_off( self ):
@@ -148,7 +147,7 @@ class API:
 		# Should Return
 		# {"STATUS": {"RESULT": "SUCCESS", "DETAIL": "Success"}, "URI": "/key_command/"}
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def mute_on( self ):
@@ -171,7 +170,7 @@ class API:
 		# Should Return
 		# {"STATUS": {"RESULT": "SUCCESS", "DETAIL": "Success"}, "URI": "/key_command/"}
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def mute_toggle( self ):
@@ -194,7 +193,7 @@ class API:
 		# Should Return
 		# {"STATUS": {"RESULT": "SUCCESS", "DETAIL": "Success"}, "URI": "/key_command/"}
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def get_current_input( self ):
@@ -256,7 +255,7 @@ class API:
 		# Should Return
 
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def cycle_input( self ):
@@ -290,7 +289,7 @@ class API:
 		response = requests.get( url , headers=headers , verify=False )
 		response.raise_for_status()
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def get_audio_setting( self , audio_setting ):
@@ -355,7 +354,6 @@ class API:
 
 		# For this one, you first need the hash value of the current audio setting
 		current_settings = self.get_audio_setting( audio_setting )
-		print( current_settings )
 
 		headers = {
 			"Content-Type": "application/json" ,
@@ -378,7 +376,7 @@ class API:
 		#  'PARAMETERS': {'HASHVAL': 1580137992, 'REQUEST': 'MODIFY', 'VALUE': 'Off'},
 		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def get_settings_types( self ):
@@ -404,7 +402,7 @@ class API:
 
 		# Should Return
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	def get_setting( self , setting_type , setting_name ):
@@ -492,7 +490,7 @@ class API:
 		#  'PARAMETERS': {'HASHVAL': 1656752721, 'REQUEST': 'MODIFY', 'VALUE': 90},
 		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'},
 		result = json.loads( response.text )
-		pprint( result )
+		#pprint( result )
 		return result
 
 	# Look Here to Find APP_ID 's , Namespace Integers , and Messages
@@ -513,8 +511,9 @@ class API:
 		url = f"https://{self.options['ip']}:7345/app/launch"
 		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
 		response.raise_for_status()
-		print( response.text )
-		pass
+		#print( response.text )
+		result = json.loads( response.text )
+		return result
 
 	def get_current_app( self ):
 		headers = {
@@ -526,5 +525,5 @@ class API:
 		result = json.loads( response.text )
 		# Should Return
 		# {"STATUS": {"RESULT": "SUCCESS", "DETAIL": "Success"}
-		pprint( result )
+		#pprint( result )
 		return result

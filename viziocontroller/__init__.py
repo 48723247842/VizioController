@@ -4,6 +4,7 @@
 
 import discover
 import api
+from pprint import pprint
 
 class VizioController:
 
@@ -28,7 +29,25 @@ class VizioController:
 			print( f"Ok , now rerun this and set options['request_token']: {request_token}" )
 			print( f"and options['code_displayed_on_tv']: code on tv" )
 			sys.exit( 1 )
-		self.api = api.API(options)
+
+		self.api = api.API( options )
+		print( "Retrieving Current Settings" )
+		self.current_volume = self.api.get_volume()
+		self.audio_settings = self.api.get_audio_settings()
+		self.audio_settings_options = self.api.get_all_audio_settings_options()
+		self.current_input = self.api.get_current_input()
+		self.available_inputs = self.api.get_available_inputs()
+		self.current_app = self.api.get_current_app()
+		self.settings_types = self.api.get_settings_types()
+		self.settings = {}
+		for index , setting in enumerate( self.settings_types["ITEMS"] ):
+			options = self.api.get_all_settings_for_type( setting["CNAME"] )
+			options = [ x["CNAME"] for x in options["ITEMS"] ]
+			self.settings[setting["CNAME"]] = {}
+			for option_index , option in enumerate( options ):
+				self.settings[setting["CNAME"]][ option ] = self.api.get_setting( setting["CNAME"] , option )
+		pprint( self.settings )
+
 
 if __name__ == "__main__":
 	tv = VizioController({
@@ -37,26 +56,19 @@ if __name__ == "__main__":
 			"ip": "192.168.1.100" ,
 			"access_token": "Zhehzvszfq"
 		})
-	print( tv.ip )
+	#print( tv.ip )
 
 	#current_volume = tv.api.get_volume()
-	#print( current_volume )
 	#tv.api.volume_up()
 	#tv.api.volume_down()
 	#audio_settings = tv.api.get_audio_settings()
-	#print( audio_settings )
 	#tv_speakers = tv.api.get_audio_setting( "tv_speakers" )
-	#print( tv_speakers )
 	#all_audio_settings_options = tv.api.get_all_audio_settings_options()
-	#print( all_audio_settings_options )
 	#tv_speakers = tv.api.get_audio_settings_options( "tv_speakers" )
-	#print( tv_speakers )
 	#tv.api.set_audio_setting( "mute" , "Off" )
 
 	#current_input = tv.api.get_current_input()
-	#print( current_input )
 	#available_inputs = tv.api.get_available_inputs()
-	#print( available_inputs )
 	# tv.api.set_input( "HDMI-1" )
 	# tv.api.set_input( "HDMI-2" )
 	#tv.api.cycle_input()
@@ -70,8 +82,6 @@ if __name__ == "__main__":
 
 	#tv.api.launch_app_config( "1" , 3 )
 	#current_app = tv.api.get_current_app()
-
-	# Left Off at https://github.com/vkorn/pyvizio#managing-audio-settings
 
 	# Whenever this is done, post it here:
 	# https://github.com/vkorn/pyvizio/issues/5
