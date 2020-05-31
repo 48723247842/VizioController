@@ -12,7 +12,7 @@ with pathlib.Path('requirements.txt').open() as requirements_txt:
 
 setuptools.setup(
 	name="viziocontroller",
-	version="0.0.3",
+	version="0.0.4",
 	author="7435171",
 	author_email="48723247842@protonmail.com",
 	description="Vizio Controller",

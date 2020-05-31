@@ -5,6 +5,7 @@
 from .discover import Discover
 from .api import API
 from pprint import pprint
+import sys
 
 class VizioController:
 

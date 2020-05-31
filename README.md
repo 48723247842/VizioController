@@ -9,7 +9,6 @@ if __name__ == "__main__":
 			"name": "Loft TV" ,
 			"mac_address": "2c:64:1f:25:6b:3c" ,
 			"ip": "192.168.1.100" ,
-			"access_token": "Zhehzvszfq"
+			#"access_token": ""
 		})
-	#print( tv.ip )
 ```
