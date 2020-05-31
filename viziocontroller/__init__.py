@@ -24,11 +24,15 @@ class VizioController:
 			if "code_displayed_on_tv" in options:
 				self.api = API(options)
 				options["access_token"] = self.api.pairing_stage_2( self.ip , options["request_token"] , options["code_displayed_on_tv"] )
+				print( "access_token == " )
+				print( str( options["access_token"] ) )
+				sys.exit( 1 )
 		if "access_token" not in options:
 			self.api = API(options)
 			request_token = self.api.pairing_stage_1( self.ip )
-			print( f"Ok , now rerun this and set options['request_token']: {request_token}" )
-			print( f"and options['code_displayed_on_tv']: code on tv" )
+			print( "request_token ==" )
+			print( str( request_token ) )
+			print( f"Ok , now rerun this and set request_token and code_displayed_on_tv" )
 			sys.exit( 1 )
 
 		self.api = API( options )
@@ -48,5 +52,3 @@ class VizioController:
 			for option_index , option in enumerate( options ):
 				self.settings[setting["CNAME"]][ option ] = self.api.get_setting( setting["CNAME"] , option )
 		pprint( self.settings )
-
-
