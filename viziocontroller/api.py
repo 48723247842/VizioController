@@ -495,5 +495,36 @@ class API:
 		pprint( result )
 		return result
 
-	def get_apps_list( self ):
+	# Look Here to Find APP_ID 's , Namespace Integers , and Messages
+	# https://github.com/vkorn/pyvizio/blob/master/pyvizio/const.py
+	def launch_app_config( self , app_id , name_space , message="None" ):
+		headers = {
+			"Content-Type": "application/json" ,
+			"AUTH": self.options["access_token"]
+		}
+		data = {
+			"_url": "/app/launch",
+			"VALUE": {
+				"APP_ID": str( app_id ) ,
+				"NAME_SPACE": int( name_space ) ,
+				"MESSAGE": message
+			}
+		}
+		url = f"https://{self.options['ip']}:7345/app/launch"
+		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
+		response.raise_for_status()
+		print( response.text )
 		pass
+
+	def get_current_app( self ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/app/current"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+		result = json.loads( response.text )
+		# Should Return
+		# {"STATUS": {"RESULT": "SUCCESS", "DETAIL": "Success"}
+		pprint( result )
+		return result

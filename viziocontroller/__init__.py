@@ -66,7 +66,10 @@ if __name__ == "__main__":
 	#backlight = tv.api.get_setting( "picture" , "backlight" )
 	#picture_settings = tv.api.get_all_settings_options_for_type( "picture" )
 	#backlight_setting = tv.api.get_settings_option( "picture" , "backlight" )
-	tv.api.set_settings_option( "picture" , "backlight" , 100 )
+	#tv.api.set_settings_option( "picture" , "backlight" , 100 )
+
+	#tv.api.launch_app_config( "1" , 3 )
+	#current_app = tv.api.get_current_app()
 
 	# Left Off at https://github.com/vkorn/pyvizio#managing-audio-settings
 
