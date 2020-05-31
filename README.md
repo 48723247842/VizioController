@@ -24,7 +24,7 @@ if __name__ == "__main__":
 			"mac_address": "2c:64:1f:25:6b:3c" ,
 			"ip": "192.168.1.100" ,
 			"request_token": 512003,
-            "code_displayed_on_tv": 6108 ,
+			"code_displayed_on_tv": 6108 ,
 		})
 ```
 
