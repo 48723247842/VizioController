@@ -18,6 +18,8 @@ class VizioController:
 			self.discover = Discover( options )
 			self.ip = self.discover.find_tv()
 			options["ip"] = self.ip
+			print( "IP == " )
+			print( options["ip"] )
 		else:
 			self.ip = options["ip"]
 		if "request_token" in options:
@@ -36,19 +38,20 @@ class VizioController:
 			sys.exit( 1 )
 
 		self.api = API( options )
-		print( "Retrieving Current Settings" )
-		self.current_volume = self.api.get_volume()
-		self.audio_settings = self.api.get_audio_settings()
-		self.audio_settings_options = self.api.get_all_audio_settings_options()
-		self.current_input = self.api.get_current_input()
-		self.available_inputs = self.api.get_available_inputs()
-		self.current_app = self.api.get_current_app()
-		self.settings_types = self.api.get_settings_types()
-		self.settings = {}
-		for index , setting in enumerate( self.settings_types["ITEMS"] ):
-			options = self.api.get_all_settings_for_type( setting["CNAME"] )
-			options = [ x["CNAME"] for x in options["ITEMS"] ]
-			self.settings[setting["CNAME"]] = {}
-			for option_index , option in enumerate( options ):
-				self.settings[setting["CNAME"]][ option ] = self.api.get_setting( setting["CNAME"] , option )
-		pprint( self.settings )
+		# print( "Retrieving Current Settings" )
+		# self.current_volume = self.api.get_volume()
+		# self.audio_settings = self.api.get_audio_settings()
+		# self.audio_settings_options = self.api.get_all_audio_settings_options()
+		# self.current_input = self.api.get_current_input()
+		# self.available_inputs = self.api.get_available_inputs()
+		# self.current_app = self.api.get_current_app()
+		# self.settings_types = self.api.get_settings_types()
+		# self.settings = {}
+		# for index , setting in enumerate( self.settings_types["ITEMS"] ):
+		# 	options = self.api.get_all_settings_for_type( setting["CNAME"] )
+		# 	options = [ x["CNAME"] for x in options["ITEMS"] ]
+		# 	self.settings[setting["CNAME"]] = {}
+		# 	for option_index , option in enumerate( options ):
+		# 		self.settings[setting["CNAME"]][ option ] = self.api.get_setting( setting["CNAME"] , option )
+		# pprint( self.settings )
+		print( f"IP == {self.ip}" )

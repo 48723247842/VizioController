@@ -12,7 +12,7 @@ with pathlib.Path('requirements.txt').open() as requirements_txt:
 
 setuptools.setup(
 	name="viziocontroller",
-	version="0.0.5",
+	version="0.0.6",
 	author="7435171",
 	author_email="48723247842@protonmail.com",
 	description="Vizio Controller",
@@ -23,6 +23,6 @@ setuptools.setup(
 		"License :: OSI Approved :: MIT License",
 		"Operating System :: OS Independent",
 	],
-	python_requires='>=3.6',
+	python_requires='>=3.8',
 	install_requires=install_requires
 )
