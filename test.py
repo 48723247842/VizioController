@@ -5,10 +5,14 @@ if __name__ == "__main__":
 	tv = viziocontroller.VizioController({
 			"name": "Loft TV" ,
 			"mac_address": "2c:64:1f:25:6b:3c" ,
-			"ip": "192.168.1.100" ,
-			"access_token": "Zhehzvszfq"
+			"ip": "192.168.1.101" ,
+			"access_token": "Zbvzknecs6"
 		})
 	print( tv.ip )
+
+	power_state = tv.api.get_power_state()
+	tv.api.power_on()
+	tv.api.power_off()
 
 	current_volume = tv.api.get_volume()
 	tv.api.volume_up()

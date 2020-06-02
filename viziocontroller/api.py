@@ -57,6 +57,76 @@ class API:
 		#pprint( result )
 		return result["ITEM"]["AUTH_TOKEN"]
 
+	def get_power_state( self ):
+		headers = {
+			'AUTH': self.options["access_token"]
+		}
+		url = f"https://{self.options['ip']}:7345/state/device/power_mode"
+		response = requests.get( url , headers=headers , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'HASHLIST': [2308455925, 729988045],
+		#  'ITEMS': [{'CNAME': 'volume',
+		#             'ENABLED': 'FALSE',
+		#             'HASHVAL': 1731828541,
+		#             'NAME': 'Volume',
+		#             'TYPE': 'T_VALUE_V1',
+		#             'VALUE': 10}],
+		#  'PARAMETERS': {'FLAT': 'TRUE', 'HASHONLY': 'FALSE', 'HELPTEXT': 'FALSE'},
+		#  'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'},
+		#  'URI': '/menu_native/dynamic/tv_settings/audio/volume'}
+
+		result = json.loads( response.text )
+		#pprint( result )
+		return result
+
+	def power_on( self ):
+		headers = {
+			"Content-Type": "application/json" ,
+			"AUTH": self.options["access_token"]
+		}
+		data = {
+			"_url": "/key_command/" ,
+			"KEYLIST": [{
+				"CODESET": 11 ,
+				"CODE": 1 ,
+				"ACTION": "KEYPRESS"
+			}]
+		}
+		url = f"https://{self.options['ip']}:7345/key_command/"
+		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}, 'URI': '/key_command/'}
+		result = json.loads( response.text )
+		#pprint( result )
+		return result
+
+	def power_off( self ):
+		headers = {
+			"Content-Type": "application/json" ,
+			"AUTH": self.options["access_token"]
+		}
+		data = {
+			"_url": "/key_command/" ,
+			"KEYLIST": [{
+				"CODESET": 11 ,
+				"CODE": 0 ,
+				"ACTION": "KEYPRESS"
+			}]
+		}
+		url = f"https://{self.options['ip']}:7345/key_command/"
+		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
+		response.raise_for_status()
+
+		# Should Return
+		# {'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}, 'URI': '/key_command/'}
+		result = json.loads( response.text )
+		#pprint( result )
+		return result
+
 	def get_volume( self ):
 		headers = {
 			'AUTH': self.options["access_token"]
