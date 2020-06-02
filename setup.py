@@ -2,8 +2,10 @@ import setuptools
 import pathlib
 import pkg_resources
 
+# pipreqs ./viziocontroller
+
 # https://stackoverflow.com/a/59971469
-with pathlib.Path('requirements.txt').open() as requirements_txt:
+with pathlib.Path('./viziocontroller/requirements.txt').open() as requirements_txt:
 	install_requires = [
 		str(requirement)
 		for requirement
@@ -12,7 +14,7 @@ with pathlib.Path('requirements.txt').open() as requirements_txt:
 
 setuptools.setup(
 	name="viziocontroller",
-	version="0.0.7",
+	version="0.0.9",
 	author="7435171",
 	author_email="48723247842@protonmail.com",
 	description="Vizio Controller",

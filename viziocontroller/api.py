@@ -1,3 +1,4 @@
+from wakeonlan import send_magic_packet
 import requests
 import json
 import warnings
@@ -101,6 +102,7 @@ class API:
 		# Should Return
 		# {'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}, 'URI': '/key_command/'}
 		result = json.loads( response.text )
+		send_magic_packet( self.options['mac_address'] )
 		#pprint( result )
 		return result
 
