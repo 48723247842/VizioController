@@ -109,8 +109,8 @@ class VizioController:
 		if current_volume > default_volume:
 			for i in range( 0 , volume_difference ):
 				self.api.volume_down()
-				print( f"Current Volume === {tv.api.get_volume()}" )
+				print( f"Current Volume === {self.api.get_volume()}" )
 		elif current_volume < default_volume:
 			for i in range( 0 , volume_difference_absolute ):
 				self.api.volume_up()
-				print( f"Current Volume === {tv.api.get_volume()}" )
+				print( f"Current Volume === {self.api.get_volume()}" )
