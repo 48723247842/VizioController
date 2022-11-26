@@ -27,17 +27,18 @@ def get_parent_class_context():
 	for f in inspect.stack():
 		if "__name__" not in f[ 0 ].f_locals:
 			continue
-		if "viziocontroller" not in f[ 0 ].f_locals:
-			continue
-		return f[ 0 ].f_locals[ "viziocontroller" ]
+		print( f[ 0 ].f_locals )
 	return False
 
 class Settings:
 
 	def __init__( self , options={} ):
 		self.options = options
-		self.this = get_parent_class_context()
-		self.api = self.this.__dict__[ "API" ]
+		try:
+			self.this = get_parent_class_context()
+			self.api = self.this.__dict__[ "API" ]
+		except Exception as e:
+			print( e )
 
 	def test( self ):
 		#print( self.api )

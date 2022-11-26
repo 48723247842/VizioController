@@ -9,6 +9,7 @@ from pprint import pprint
 import sys
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
+from wakeonlan import send_magic_packet
 
 def _x_batch_process_exec_next_iter( options ):
 	if len( options ) > 2:
@@ -53,6 +54,9 @@ class VizioController:
 			print( str( request_token ) )
 			print( f"Ok , now rerun this and set request_token and code_displayed_on_tv" )
 			sys.exit( 1 )
+		if "always_wakeup" in options:
+			if options[ "always_wakeup" ] == True:
+				send_magic_packet( self.options[ "mac_address" ] )
 
 		self.api = API( options )
 		self.settings = Settings( options )
@@ -95,3 +99,18 @@ class VizioController:
 		except Exception as e:
 			print( e )
 			return "API SERVER OFFLINE"
+
+	def set_volume( self , target_level ):
+		current_volume = tv.api.get_volume()
+		volume_difference = ( current_volume - target_level )
+		volume_difference_absolute = abs( volume_difference )
+		print( f"Current Volume === {current_volume}" )
+		print( f"Difference to Target [{default_volume}] === {volume_difference_absolute}" )
+		if current_volume > default_volume:
+			for i in range( 0 , volume_difference ):
+				self.api.volume_down()
+				print( f"Current Volume === {tv.api.get_volume()}" )
+		elif current_volume < default_volume:
+			for i in range( 0 , volume_difference_absolute ):
+				self.api.volume_up()
+				print( f"Current Volume === {tv.api.get_volume()}" )
