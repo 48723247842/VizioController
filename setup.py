@@ -14,7 +14,7 @@ with pathlib.Path('./viziocontroller/requirements.txt').open() as requirements_t
 
 setuptools.setup(
 	name="viziocontroller",
-	version="0.1.4",
+	version="0.1.5",
 	author="7435171",
 	author_email="48723247842@protonmail.com",
 	description="Vizio Controller",
