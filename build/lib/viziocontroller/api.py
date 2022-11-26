@@ -82,29 +82,6 @@ class API:
 		#pprint( result )
 		return result
 
-	def power_on_silent( self ):
-		headers = {
-			"Content-Type": "application/json" ,
-			"AUTH": self.options["access_token"]
-		}
-		data = {
-			"_url": "/key_command/" ,
-			"KEYLIST": [{
-				"CODESET": 11 ,
-				"CODE": 1 ,
-				"ACTION": "KEYPRESS"
-			}]
-		}
-		url = f"https://{self.options['ip']}:7345/key_command/"
-		response = requests.put( url , headers=headers , data=json.dumps( data ) , verify=False )
-		response.raise_for_status()
-
-		# Should Return
-		# {'STATUS': {'DETAIL': 'Success', 'RESULT': 'SUCCESS'}, 'URI': '/key_command/'}
-		result = json.loads( response.text )
-		#pprint( result )
-		return result
-
 	def power_on( self ):
 		headers = {
 			"Content-Type": "application/json" ,
