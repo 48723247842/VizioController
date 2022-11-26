@@ -105,12 +105,12 @@ class VizioController:
 		volume_difference = ( current_volume - target_level )
 		volume_difference_absolute = abs( volume_difference )
 		print( f"Current Volume === {current_volume}" )
-		print( f"Difference to Target [{default_volume}] === {volume_difference_absolute}" )
-		if current_volume > default_volume:
+		print( f"Difference to Target [{target_level}] === {volume_difference_absolute}" )
+		if current_volume > target_level:
 			for i in range( 0 , volume_difference ):
 				self.api.volume_down()
 				print( f"Current Volume === {self.api.get_volume()}" )
-		elif current_volume < default_volume:
+		elif current_volume < target_level:
 			for i in range( 0 , volume_difference_absolute ):
 				self.api.volume_up()
 				print( f"Current Volume === {self.api.get_volume()}" )

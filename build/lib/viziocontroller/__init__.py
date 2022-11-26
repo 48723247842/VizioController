@@ -101,7 +101,7 @@ class VizioController:
 			return "API SERVER OFFLINE"
 
 	def set_volume( self , target_level ):
-		current_volume = tv.api.get_volume()
+		current_volume = self.api.get_volume()
 		volume_difference = ( current_volume - target_level )
 		volume_difference_absolute = abs( volume_difference )
 		print( f"Current Volume === {current_volume}" )
